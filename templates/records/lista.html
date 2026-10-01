@@ -3,11 +3,11 @@
 {% block content %}
 <div class="d-flex justify-content-between align-items-center mb-4">
   <div><h1 class="mb-1">Registros</h1><p class="text-body-secondary mb-0">Exemplo de CRUD: adapte esta entidade ao seu projeto.</p></div>
-  <a class="btn btn-primary" href="{{ url_for('novo_registro') }}">Novo registro</a>
+  <a class="btn btn-primary" href="{{ url_for('records.novo_registro') }}">Novo registro</a>
 </div>
 {% if records %}
 <div class="table-responsive card shadow-sm"><table class="table table-hover mb-0"><thead><tr><th>Título</th><th>Descrição</th><th>Criado em</th><th class="text-end">Ações</th></tr></thead><tbody>
-{% for record in records %}<tr><td class="fw-semibold">{{ record['title'] }}</td><td>{{ record['description'] or '—' }}</td><td>{{ record['created_at'] }}</td><td class="text-end"><a class="btn btn-sm btn-outline-primary" href="{{ url_for('editar_registro', record_id=record['id']) }}">Editar</a><form class="d-inline" method="post" action="{{ url_for('excluir_registro', record_id=record['id']) }}"><button class="btn btn-sm btn-outline-danger" type="submit" onclick="return confirm('Excluir este registro?')">Excluir</button></form></td></tr>{% endfor %}
+{% for record in records %}<tr><td class="fw-semibold">{{ record['title'] }}</td><td>{{ record['description'] or '—' }}</td><td>{{ record['created_at'] }}</td><td class="text-end"><a class="btn btn-sm btn-outline-primary" href="{{ url_for('records.editar_registro', record_id=record['id']) }}">Editar</a><form class="d-inline" method="post" action="{{ url_for('records.excluir_registro', record_id=record['id']) }}"><button class="btn btn-sm btn-outline-danger" type="submit" onclick="return confirm('Excluir este registro?')">Excluir</button></form></td></tr>{% endfor %}
 </tbody></table></div>
 {% else %}<div class="alert alert-info">Nenhum registro cadastrado. Crie o primeiro para testar o exemplo.</div>{% endif %}
 {% endblock %}

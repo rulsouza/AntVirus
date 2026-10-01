@@ -8,8 +8,8 @@
   <!-- ALTERE AQUI: explique brevemente o que o seu projeto resolve -->
   <p class="lead mx-auto mt-3">Uma descrição breve do projeto que seu grupo irá desenvolver.</p>
   <div class="mt-4 d-flex justify-content-center gap-2 flex-wrap">
-    <a class="btn btn-primary btn-lg" href="{{ url_for('login') }}">Acessar sistema</a>
-    <a class="btn btn-outline-primary btn-lg" href="{{ url_for('cadastro') }}">Criar conta</a>
+    <a class="btn btn-primary btn-lg" href="{{ url_for('auth.login') }}">Acessar sistema</a>
+    <a class="btn btn-outline-primary btn-lg" href="{{ url_for('auth.cadastro') }}">Criar conta</a>
   </div>
 </section>
 {% endblock %}
