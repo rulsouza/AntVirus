@@ -1,0 +1,57 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<title>Criar conta — AEGIS</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@400;500;600;700&family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="{{ url_for('static', filename='css/style.css') }}">
+</head>
+<body>
+
+<header>
+  <nav class="wrap">
+    <a class="brand-mark" href="{{ url_for('index') }}"><img src="{{ url_for('static', filename='img/logo.jpg') }}" alt="AEGIS"><span class="brand">AEGIS</span></a>
+  </nav>
+</header>
+
+<section class="form-section">
+  <div class="wrap form-wrap">
+    <div class="form-card">
+      <h2>Criar sua conta</h2>
+      <p class="form-sub">
+        {% if plano == 'plus' %}Cadastre-se para continuar com o plano Plus.
+        {% elif plano == 'pro' %}Cadastre-se para continuar com o plano Pro.
+        {% else %}Leva menos de um minuto.{% endif %}
+      </p>
+
+      {% with messages = get_flashed_messages() %}
+        {% if messages %}
+          <div class="flash">{{ messages[0] }}</div>
+        {% endif %}
+      {% endwith %}
+
+      <form method="POST" action="{{ url_for('cadastro') }}">
+        <input type="hidden" name="plano" value="{{ plano }}">
+
+        <label>Nome</label>
+        <input type="text" name="nome" placeholder="Seu nome" required>
+
+        <label>E-mail</label>
+        <input type="email" name="email" placeholder="voce@email.com" required>
+
+        <label>Senha</label>
+        <input type="password" name="senha" placeholder="Crie uma senha" required>
+
+        <button class="btn-primary full" type="submit">Criar conta</button>
+      </form>
+
+      <p class="form-foot">Já tem conta? <a href="{{ url_for('login') }}">Entrar</a></p>
+    </div>
+  </div>
+</section>
+
+</body>
+</html>

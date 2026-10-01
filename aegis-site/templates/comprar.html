@@ -1,0 +1,64 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<title>Finalizar compra — AEGIS {{ info.nome }}</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@400;500;600;700&family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="{{ url_for('static', filename='css/style.css') }}">
+</head>
+<body>
+
+<header>
+  <nav class="wrap">
+    <a class="brand-mark" href="{{ url_for('index') }}"><img src="{{ url_for('static', filename='img/logo.jpg') }}" alt="AEGIS"><span class="brand">AEGIS</span></a>
+  </nav>
+</header>
+
+<section class="form-section">
+  <div class="wrap form-wrap">
+    <div class="form-card checkout-card">
+      <div class="checkout-plan">
+        <span class="pill">Plano selecionado</span>
+        <h2>{{ info.nome }} — {{ info.preco_exibido }}</h2>
+      </div>
+
+      {% with messages = get_flashed_messages() %}
+        {% if messages %}
+          <div class="flash">{{ messages[0] }}</div>
+        {% endif %}
+      {% endwith %}
+
+      <form method="POST" action="{{ url_for('comprar', plano=plano) }}">
+        <label>Nome no cartão</label>
+        <input type="text" name="nome" placeholder="Nome completo" value="{{ nome_preenchido }}" required>
+
+        <label>E-mail</label>
+        <input type="email" name="email" placeholder="voce@email.com" required>
+
+        <label>Número do cartão</label>
+        <input type="text" placeholder="0000 0000 0000 0000" maxlength="19">
+
+        <div class="checkout-row">
+          <div>
+            <label>Validade</label>
+            <input type="text" placeholder="MM/AA" maxlength="5">
+          </div>
+          <div>
+            <label>CVV</label>
+            <input type="text" placeholder="123" maxlength="3">
+          </div>
+        </div>
+
+        <p class="form-note">Ambiente de demonstração — nenhum dado de cartão é processado de verdade.</p>
+
+        <button class="btn-primary full" type="submit">Confirmar assinatura — {{ info.preco_exibido }}</button>
+      </form>
+    </div>
+  </div>
+</section>
+
+</body>
+</html>

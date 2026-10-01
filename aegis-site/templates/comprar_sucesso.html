@@ -1,0 +1,33 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<title>Compra confirmada — AEGIS</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@400;500;600;700&family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="{{ url_for('static', filename='css/style.css') }}">
+</head>
+<body>
+
+<header>
+  <nav class="wrap">
+    <a class="brand-mark" href="{{ url_for('index') }}"><img src="{{ url_for('static', filename='img/logo.jpg') }}" alt="AEGIS"><span class="brand">AEGIS</span></a>
+  </nav>
+</header>
+
+<section class="form-section">
+  <div class="wrap form-wrap">
+    <div class="form-card" style="text-align:center">
+      <div class="success-icon">✓</div>
+      <h2>Assinatura confirmada!</h2>
+      <p class="form-sub">Obrigado, {{ nome }}. Seu plano <strong>{{ info.nome }}</strong> ({{ info.preco_exibido }}) já está ativo.</p>
+      <a class="btn-primary full" href="{{ url_for('sistema') }}" style="margin-top:20px; display:block;">Ir para minha área</a>
+      <p class="form-foot">Pode fechar esta aba quando quiser.</p>
+    </div>
+  </div>
+</section>
+
+</body>
+</html>

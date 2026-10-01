@@ -1,0 +1,71 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<title>Minha área — AEGIS</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@400;500;600;700&family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="{{ url_for('static', filename='css/style.css') }}">
+</head>
+<body>
+
+<header>
+  <nav class="wrap">
+    <a class="brand-mark" href="{{ url_for('index') }}"><img src="{{ url_for('static', filename='img/logo.jpg') }}" alt="AEGIS"><span class="brand">AEGIS</span></a>
+    <div class="navlinks">
+      <a href="{{ url_for('index') }}">Site</a>
+    </div>
+    <a class="nav-cta" href="{{ url_for('logout') }}">Sair</a>
+  </nav>
+</header>
+
+<section class="dash-section">
+  <div class="wrap">
+    <div class="section-head" style="margin-bottom:28px">
+      <div class="kicker">Área interna</div>
+      <h2>Olá, {{ nome }}</h2>
+      <p>Aqui fica o painel da sua proteção AEGIS.</p>
+    </div>
+
+    <div class="demo-panel" style="margin:0 0 36px">
+      <div class="row1">
+        <div class="status">
+          <div class="dot"></div>
+          <div class="status-text"><strong>Sistema protegido</strong><span>Plano ativo acompanhado abaixo</span></div>
+        </div>
+      </div>
+      <div class="demo-list">
+        <div class="demo-item"><span class="name">Dispositivos conectados</span><span class="ok">1 de 1</span></div>
+        <div class="demo-item"><span class="name">Última verificação</span><span class="ok">Hoje</span></div>
+        <div class="demo-item"><span class="name">Ameaças bloqueadas (30 dias)</span><span class="ok">12</span></div>
+      </div>
+    </div>
+
+    <div class="section-head" style="margin-bottom:20px">
+      <h3 style="font-family:'Space Grotesk'; font-size:1.2rem;">Minhas compras</h3>
+    </div>
+
+    {% if compras %}
+      <div class="price-grid" style="grid-template-columns: 1fr;">
+        {% for c in compras %}
+          <div class="price-card" style="flex-direction: row; align-items: center; justify-content: space-between;">
+            <div>
+              <h3 style="margin-bottom:4px">Plano {{ c['plano'] }}</h3>
+              <div class="desc" style="margin-bottom:0">Comprado em {{ c['criado_em'] }} · R$ {{ c['valor'] }}/mês</div>
+            </div>
+          </div>
+        {% endfor %}
+      </div>
+    {% else %}
+      <div class="price-card" style="max-width:480px">
+        <p class="desc" style="margin-bottom:18px">Você ainda está no plano Essencial (grátis).</p>
+        <a class="price-cta" href="{{ url_for('index') }}#planos">Ver planos pagos</a>
+      </div>
+    {% endif %}
+  </div>
+</section>
+
+</body>
+</html>

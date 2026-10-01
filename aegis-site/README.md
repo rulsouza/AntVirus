@@ -1,40 +1,59 @@
 # AEGIS — Next-Gen Security
 
-Landing page de vendas/apresentação do antivírus AEGIS. Site estático (HTML + CSS puro, sem build).
+Site de vendas/apresentação do antivírus AEGIS, agora como aplicação **Flask** completa: cadastro e login com banco de dados, área interna, e fluxo de compra que abre em uma aba separada.
 
 ## Estrutura
 
 ```
 aegis-site/
-├── index.html          # página principal
-├── assets/
-│   ├── css/
-│   │   └── style.css   # todo o estilo do site
-│   └── img/
-│       └── logo.jpg    # logo AEGIS
-└── README.md
+├── app.py                  # rotas da aplicação
+├── database.py             # conexão e criação do banco SQLite
+├── requirements.txt
+├── static/
+│   ├── css/style.css
+│   └── img/logo.jpg
+└── templates/
+    ├── index.html          # landing page
+    ├── login.html
+    ├── cadastro.html
+    ├── sistema.html         # área interna (protegida por sessão)
+    ├── comprar.html         # checkout (abre em nova aba)
+    └── comprar_sucesso.html
 ```
 
-## Como abrir no VS Code
+## Como rodar no VS Code
 
-1. Extraia esta pasta em algum lugar do seu computador.
-2. No VS Code: **File → Open Folder...** e selecione a pasta `aegis-site`.
+1. Abra a pasta `aegis-site` no VS Code.
+2. Abra um terminal (**Terminal → New Terminal**) e crie o ambiente virtual:
+   ```
+   python -m venv .venv
+   ```
+3. Ative o ambiente:
+   - Linux/macOS: `source .venv/bin/activate`
+   - Windows: `.venv\Scripts\activate`
+4. Instale as dependências:
+   ```
+   pip install -r requirements.txt
+   ```
+5. Rode o projeto:
+   ```
+   python app.py
+   ```
+6. Acesse **http://127.0.0.1:5000**
 
-## Como lançar (visualizar no navegador)
+Na primeira execução o arquivo `database.db` e as tabelas `users` e `compras` são criados automaticamente.
 
-Por ser um site 100% estático, não precisa de `npm install` nem servidor de verdade. Duas formas:
+## Como funciona
 
-**Opção 1 — Live Server (recomendado)**
-1. Instale a extensão **Live Server** (de Ritwick Dey) pelo marketplace de extensões do VS Code.
-2. Clique com o botão direito em `index.html` → **Open with Live Server**.
-3. O site abre automaticamente no navegador em `http://127.0.0.1:5500` e recarrega sozinho a cada alteração salva.
+- **Cadastro/Login**: senha é armazenada com hash (`werkzeug.security`). Ao logar, a sessão Flask (`session["user_id"]`) guarda o usuário conectado.
+- **Área interna (`/sistema`)**: só acessível logado; redireciona para `/login` caso contrário. Mostra as compras do usuário.
+- **Comprar um plano**: nos planos pagos (Plus/Pro), se o usuário já está logado o botão abre `/comprar/<plano>` **em uma nova aba**. Se não está logado, primeiro cadastra a conta e já cai direto no checkout do plano escolhido.
+- **Checkout (`/comprar/<plano>`)**: formulário simulado (sem gateway de pagamento real) que grava o pedido na tabela `compras` e mostra uma página de confirmação.
+- **Botão "Analisar agora"**: chama `/api/scan`, que devolve um resultado simulado em JSON, e a página atualiza o painel via JavaScript (`fetch`).
 
-**Opção 2 — Abrir direto**
-1. Clique com o botão direito em `index.html` → **Reveal in File Explorer** (ou equivalente) e dê duplo clique nele.
-2. O navegador abre o arquivo direto do disco (`file:///...`). Funciona, mas sem live-reload.
+## Próximos passos sugeridos
 
-## Editar o conteúdo
-
-- Textos e estrutura das seções: `index.html`
-- Cores, fontes e espaçamentos: `assets/css/style.css` (as cores principais estão nas variáveis `:root` no topo do arquivo)
-- Trocar a logo: substitua `assets/img/logo.jpg` por outro arquivo de mesmo nome (ou ajuste o caminho no `index.html`)
+- Trocar o `app.secret_key` por uma chave segura antes de qualquer deploy real.
+- Validar formato de e-mail e força de senha no cadastro.
+- Adicionar recuperação de senha.
+- Integrar um gateway de pagamento de verdade (Stripe, Mercado Pago, etc.) no checkout.
